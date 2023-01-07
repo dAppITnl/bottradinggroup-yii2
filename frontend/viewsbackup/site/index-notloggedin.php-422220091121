@@ -1,0 +1,15 @@
+<?php
+/* @var $this yii\web\View */
+
+$this->registerCssFile('@web/css/index.css');
+
+?>
+<div class="site-index">
+  <div class="body-content">
+    <div class="row">
+      <div class="col text-center">
+        <h2><b>Aub, <a href="/site/signup">meld je aan</a> of <a href="/site/login">log in</a>..</b></h2>
+      </div>
+    </div>
+	</div>
+</div>

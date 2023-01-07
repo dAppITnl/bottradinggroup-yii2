@@ -1,0 +1,54 @@
+<?php
+
+/* @var $this yii\web\View */
+
+use yii\helpers\Html;
+
+$this->title = 'Disclaimer';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="site-disclaimer">
+  <h1>Disclaimer Bot Trading Group</h1>
+Informatie gepubliceerd op bottradinggroup.nl:
+De website https://bottradinggroup.nl (hierna te noemen de “Website”) biedt informatie en materiaal van algemene aard. De Website is niet bedoeld voor juridisch advies, zakelijk advies, beleggingsadvies of advies van welke aard dan ook. U kunt geen aanspraak maken op het vertrouwen in de content van Website. U handelt op eigen risico bij het vertrouwen op de inhoud van de Website. Als u besluit om al dan niet te handelen, dient u contact op te nemen met een bevoegde advocaat of uw financieel adviseur in het relevante rechtsgebied waarin u hulp wilt of nodig hebt. De eigenaren of medewerkers van de website zijn op geen enkele manier verantwoordelijk voor de acties, beslissingen of ander gedrag dat u al dan niet hebt genomen op basis van het vertrouwen in de Website.
+
+Vertalingen:
+De Website kan vertalingen bevatten van de Nederlandse versie van de inhoud die op de website beschikbaar is. Deze vertalingen worden alleen voor het gemak verstrekt. In geval van tegenstrijdigheid tussen de Nederlandse versie en de vertaalde versie, prevaleert de Nederlandse versie. Als u inconsistenties opmerkt, meld deze dan aan ons via team@bottradinggroup.nl.
+
+Risico's verbonden aan het gebruik van Bot Trading Group:
+De Website is niet verantwoordelijk voor verliezen, schade of claims die voortvloeien uit gebeurtenissen die binnen de reikwijdte van de volgende zes categorieën vallen:
+1. Fouten gemaakt door de gebruiker van Bot Trading Group-gerelateerde software of services, bijvoorbeeld vergeten wachtwoorden, betalingen die naar verkeerde Bot Trading Group-adressen zijn verzonden en het per ongeluk verwijderen van portefeuilles.
+2. Softwareproblemen van de website en/of aan Bot Trading Group gerelateerde software of service, bijv. een beschadigd portemonnee-bestand, onjuist geconstrueerde transacties, onveilige cryptografische bibliotheken, malware die invloed heeft op de website en/of Bot Trading Group-gerelateerde software of service.
+3. Technische storingen in de hardware van de gebruiker van Bot Trading Group-gerelateerde software of service, bijvoorbeeld gegevensverlies als gevolg van een defect of beschadigd opslagapparaat.
+4. Beveiligingsproblemen ervaren door de gebruiker van Bot Trading Group-gerelateerde software of service, bijvoorbeeld ongeautoriseerde toegang tot de portemonnees en/of accounts van gebruikers.
+5. Handelingen of nalaten van derden en/of gebeurtenissen die door derden worden ervaren, bijvoorbeeld het faillissement van dienstverleners, informatiebeveiligingsaanvallen op dienstverleners en fraude door derden.
+6. Verkeerde toepassing van signalen, onvoldoende saldo/fonden in het account, storingen in gebruik met en van exchanges en andere ondersteunende software.
+ 
+Beleggingsrisico's:
+De investering in Bot Trading Group kan op korte of zelfs lange termijn leiden tot geldverlies. De investeerders in Bot Trading Group mogen verwachten dat de prijzen grote schommelingen vertonen. De op de Website gepubliceerde informatie kan niet garanderen dat de investeerders in Bot Trading Group geen geld verliezen. Ook het niet of niet volledig uitvoeren ten gevolge van situaties op de exchange en/of het orderboek zijn voor risico van de gebruiker.
+
+Naleving van fiscale verplichtingen:
+De websitegebruikers zijn uitsluitend zelf verantwoordelijk voor het bepalen van eventuele belastingen die van toepassing zijn op hun Bot Trading Group-transacties. De eigenaren van of bijdragers aan de website zijn NIET verantwoordelijk voor het bepalen van de belastingen die van toepassing zijn op transacties die rechtstreeks of indirect op advies van Bot Trading Group zijn gedaan.
+
+De Website bewaart, verzendt of ontvangt geen crypto-munten:
+De Website bewaart, verzendt of ontvangt geen crypto-munten. Bot Trading Group geeft alleen ideeën en meningen (geen adviezen!) over bepaalde crypto-munten. De Bot Trading Group heeft geen eigen blockchainnetwerk en verhandelt niets op de website.
+
+Geen garanties:
+De Website wordt aangeboden op een "as is"-basis zonder enige garantie van welke aard dan ook met betrekking tot de Website en/of enige inhoud, gegevens, materialen en/of diensten die op de Website worden aangeboden.
+
+Beperking van de aansprakelijkheid:
+Tenzij anders vereist door de wet, zullen de eigenaren van of medewerkers aan de Website in geen geval aansprakelijk zijn voor enige schade, met inbegrip van, maar niet beperkt tot, verlies van gebruik, winstderving of verlies van gegevens die voortkomen uit van of op enigerlei wijze verband houdt met het gebruik van de Website.
+
+Arbitrage:
+De gebruiker van de Website stemt ermee in om elk geschil dat voortvloeit uit of verband houdt met de Website of deze disclaimer via bemiddeling op te lossen, met uitzondering van geschillen met betrekking tot auteursrechten, logo's, handelsmerken, handelsnamen, handelsgeheimen of octrooien.
+
+HET IS TEN STRENGSTE VERBODEN DEZE DIENST/SOFTWARE TE GEBRUIKEN VOOR DEELNAME/AANKOOP VAN ILLEGALE GOEDEREN, DRUGS EN ANDERE ILLEGAAL GERELATEERDE ACTIVITEITEN.
+
+Laatste wijziging:
+Deze disclaimer is voor het laatst gewijzigd op 30 november 2021.
+
+  <p>Disclaimer (Nederlands)</p>
+
+</div>
+
+

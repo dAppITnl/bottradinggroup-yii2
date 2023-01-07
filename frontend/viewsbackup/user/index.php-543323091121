@@ -1,0 +1,42 @@
+<?php
+
+use Yii;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\StringHelper;
+use \common\helpers\GeneralHelper;
+
+$userId = Yii::$app->user->id;
+$userIdentity = Yii::$app->user->identity;
+
+?>
+<div class="user-index">
+  <div class="body-content">
+
+    <div class="row">
+      <div class="col text-center">
+        <h2><b><?= Yii::t('app', 'Your profile') ?>:</b></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p><table border="1">
+          <tr><th><?= Yii::t('app', 'Username') ?>: </th><td><h3><?= $userIdentity->username ?></h3></td></tr>
+          <tr><th><?= Yii::t('app', 'Id')  ?>: </th><td><?= $userId ?></td></tr>
+          <tr><th><?= Yii::t('app', 'Email')  ?>: </th><td><?= $userIdentity->email ?></td></tr>
+          <tr><th><?= Yii::t('app', 'DiscordId')  ?>: </th><td><?= $userIdentity->discordid ?></td></tr>
+          <tr><th><?= Yii::t('app', 'DiscordRoles')  ?>: </th><td><?= $userIdentity->discordRoles ?></td></tr>
+          <tr><th><?= Yii::t('app', 'MoralisId')  ?>: </th><td><?= $userIdentity->moralisid ?></td></tr>
+          <tr><th><?= Yii::t('app', 'Remarks')  ?>: </th><td><?= $userIdentity->remarks ?></td></tr>
+          <tr><th><?= Yii::t('app', 'Created')  ?>: </th><td><?= $userIdentity->createdt ?></td></tr>
+        </table></p>
+				<p><?= HTML::a( Yii::t('app', 'Update your profile'), ['user/update', 'id'=>$userId], ['class'=>'btn btn-primary']) ?></p>
+				<p><?= Yii::t('app', 'If you forgot your password you can ') . Html::a(Yii::t('app', 'reset it'), ['site/request-password-reset']) ?></p>
+      </div>
+    </div>
+
+	</div>
+</div>
+
+

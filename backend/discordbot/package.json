@@ -1,0 +1,8 @@
+{
+	"name": "BTG-RoleMgr-2",
+	"version": "1.0.0",
+	"description": "BTG Role manager v2",
+	"main": "btgRoleMgr2.js",
+	"author": "CasNWK",
+	"dependencies": {}
+}

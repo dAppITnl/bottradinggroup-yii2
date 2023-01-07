@@ -1,0 +1,46 @@
+* Hostname discord.com was found in DNS cache
+*   Trying 162.159.137.232...
+* TCP_NODELAY set
+* Connected to discord.com (162.159.137.232) port 443 (#0)
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+  CApath: /etc/ssl/certs
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: C=US; ST=California; L=San Francisco; O=Cloudflare, Inc.; CN=sni.cloudflaressl.com
+*  start date: Dec 19 00:00:00 2021 GMT
+*  expire date: Dec 19 23:59:59 2022 GMT
+*  issuer: C=US; O=Cloudflare, Inc.; CN=Cloudflare Inc ECC CA-3
+*  SSL certificate verify ok.
+> GET /api/v6/guilds/885495602144772117/members/search?query=CasTrader HTTP/1.1
+Host: discord.com
+Accept: */*
+Authorization: Bot OTA5MTkwMjkxMzkzNzQ5MDYy.YZArcQ.770Qd6sdRpLLTOaMz1crZO291QE
+
+< HTTP/1.1 200 OK
+< Date: Wed, 12 Oct 2022 21:08:37 GMT
+< Content-Type: application/json
+< Transfer-Encoding: chunked
+< Connection: keep-alive
+< set-cookie: __dcfduid=09fc022e4a7211ed8f15aab2c59d407d; Expires=Mon, 11-Oct-2027 21:08:37 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< strict-transport-security: max-age=31536000; includeSubDomains; preload
+< x-ratelimit-bucket: d721eda6a63e6522373d361f98e4b58b
+< x-ratelimit-limit: 10
+< x-ratelimit-remaining: 8
+< x-ratelimit-reset: 1665608918
+< x-ratelimit-reset-after: 1
+< x-envoy-upstream-service-time: 30
+< Via: 1.1 google
+< Alt-Svc: h3=":443"; ma=86400, h3-29=":443"; ma=86400
+< CF-Cache-Status: DYNAMIC
+< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=Dn5GBFdJWs9M4LnhMx9VHNOXHnYnJLs%2FFEV0B3DUdra95j%2FeD85Wdn%2Bd6Viav2nT2Sad9pw9wP%2F774wUD3NE78sj1MP1s1x0hiqtPCUz6UHGp9b5UtTfQH7ArnNH"}],"group":"cf-nel","max_age":604800}
+< NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+< X-Content-Type-Options: nosniff
+< Set-Cookie: __sdcfduid=09fc022e4a7211ed8f15aab2c59d407db8d8fc08cb534d6b987c660a720edfbb8ea83449c5caba9acd2638f5bce61b5a; Expires=Mon, 11-Oct-2027 21:08:37 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< Set-Cookie: __cfruid=0866912a9668a9dd82065ae53d05a9c97a93a06c-1665608917; path=/; domain=.discord.com; HttpOnly; Secure; SameSite=None
+< Server: cloudflare
+< CF-RAY: 7592cfd42aa044fe-TXL
+< 
+* Connection #0 to host discord.com left intact

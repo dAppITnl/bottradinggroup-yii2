@@ -1,0 +1,1231 @@
+<?php
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\GridView;
+use yii\widgets\DetailView;
+use yii\widgets\Pjax;
+use dmstr\bootstrap\Tabs;
+use \common\helpers\GeneralHelper;
+
+$siteLevels = GeneralHelper::getSiteLevels(false);
+$siteCssfiles = GeneralHelper::getSiteCssFiles();
+$languages = GeneralHelper::getLanguages();
+$userStatusus = GeneralHelper::getUserStatuses();
+$discordRoles = GeneralHelper::getDiscordRoles();
+
+/**
+* @var yii\web\View $this
+* @var backend\models\User $model
+*/
+$copyParams = $model->attributes;
+
+$this->title = Yii::t('models', 'User');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('models.plural', 'User'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('cruds', 'View');
+?>
+<div class="giiant-crud user-view">
+
+  <!-- flash message -->
+  <?php
+		if (\Yii::$app->session->getFlash('deleteError') !== null) :
+	?>
+  <span class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    	<span aria-hidden="true">&times;</span>
+		</button>
+    <?= \Yii::$app->session->getFlash('deleteError') ?>
+  </span>
+  <?php endif; ?>
+
+  <h1><?= Html::encode($model->id) ?> <small><?= Yii::t('models', 'User') ?></small></h1>
+
+  <div class="clearfix crud-navigation">
+
+		<!-- menu buttons -->
+    <div class='pull-left'>
+      <?= Html::a('<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('cruds', 'Edit'),
+        [ 'update', 'id' => $model->id],
+        ['class' => 'btn btn-info'])
+      ?>
+
+      <?= '' /*Html::a('<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('cruds', 'Copy'),
+        ['create', 'id' => $model->id, 'User'=>$copyParams],
+        ['class' => 'btn btn-success'])
+      */ ?>
+
+      <?= '' /*Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New'),
+        ['create'],
+        ['class' => 'btn btn-success'])
+      */ ?>
+
+			<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('app', 'Update Discord settings'),
+				['/user/setdiscordtoken', 'id' => $model->id],
+				['class' => 'btn btn-primary'])
+			?>
+    </div>
+
+    <div class="pull-right">
+      <?= Html::a('<span class="glyphicon glyphicon-list"></span> '
+        . Yii::t('cruds', 'Full list'), ['index'], ['class'=>'btn btn-default'])
+			?>
+    </div>
+  </div>
+
+  <hr/>
+
+  <?php $this->beginBlock('backend\models\User'); ?>
+
+  <?= DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+      'username',
+			[
+				'attribute'=>'usr_sitelevel',
+				'value' => $siteLevels[ $model->usr_sitelevel ],
+			],
+      [
+        'attribute'=>'usr_sitecsstheme',
+        'value' => $siteCssfiles[ $model->usr_sitecsstheme ] .' => '. GeneralHelper::createCssFilename($model->usr_sitecsstheme),
+      ],
+      //'usr_password',
+      //'password_hash',
+      //'password_reset_token',
+      //'verification_token',
+      //'auth_key',
+      'email:email',
+      [
+        'format' => 'html',
+        'attribute' => 'status',
+        'value' => $userStatusus[$model->status],
+      ],
+      [
+        'format' => 'html',
+        'attribute' => 'usr_language',
+        'value' => $languages[$model->usr_language],
+      ],
+      'usr_moralisid',
+
+			'usr_discordusername',
+			'usr_discordnick',
+			'usr_discordid',
+      [
+        'attribute' => 'usr_discordroles',
+        'value' => function($model) use ($discordRoles) {
+          $result = [];
+          foreach(explode(',', $model->usr_discordroles) as $role) $result[] = $discordRoles[ $role ];
+          return implode(', ', $result);
+        }
+      ],
+			'usr_discordjoinedat',
+
+      //'usr_signalactive',
+      'usr_remarks:ntext',
+
+      //'usr_lock',
+      //'created_at',
+      'usr_createdt',
+			[
+		    'format' => 'html',
+		    'attribute' => 'created_by',
+		    'value' => ($model->createdBy ?
+		      Html::a('<i class="glyphicon glyphicon-list"></i>', ['user/index']).' '.
+		      Html::a('<i class="glyphicon glyphicon-circle-arrow-right"></i> '.$model->createdBy->username, ['user/view', 'id' => $model->createdBy->id,]).' '.
+		      Html::a('<i class="glyphicon glyphicon-paperclip"></i>', ['create', 'User'=>['created_by' => $model->created_by]])
+		    :
+		      '<span class="label label-warning">?</span>'),
+		  ],
+      //'updated_at',
+      'usr_updatedt',
+			[
+		    'format' => 'html',
+		    'attribute' => 'updated_by',
+		    'value' => ($model->updatedBy ?
+		      Html::a('<i class="glyphicon glyphicon-list"></i>', ['user/index']).' '.
+		      Html::a('<i class="glyphicon glyphicon-circle-arrow-right"></i> '.$model->updatedBy->username, ['user/view', 'id' => $model->updatedBy->id,]).' '.
+		      Html::a('<i class="glyphicon glyphicon-paperclip"></i>', ['create', 'User'=>['updated_by' => $model->updated_by]])
+		    :
+		      '<span class="label label-warning">?</span>'),
+		  ],
+      //'deleted_at',
+      'usr_deletedt',
+			[
+		    'format' => 'html',
+		    'attribute' => 'deleted_by',
+		    'value' => ($model->deletedBy ?
+		      Html::a('<i class="glyphicon glyphicon-list"></i>', ['user/index']).' '.
+		      Html::a('<i class="glyphicon glyphicon-circle-arrow-right"></i> '.$model->deletedBy->username, ['user/view', 'id' => $model->deletedBy->id,]).' '.
+		      Html::a('<i class="glyphicon glyphicon-paperclip"></i>', ['create', 'User'=>['deleted_by' => $model->deleted_by]])
+		    :
+		      '<span class="label label-warning">?</span>'),
+		  ],
+		],
+  ]); ?>
+
+  <hr/>
+
+  <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('cruds', 'Delete'), ['delete', 'id' => $model->id],
+    [
+    	'class' => 'btn btn-danger',
+    	'data-confirm' => '' . Yii::t('cruds', 'Are you sure to delete this item?') . '',
+    	'data-method' => 'post',
+    ]);
+  ?>
+
+	<hr>
+
+	<?= Html::a(Yii::t('app', 'Add / Replace 2FA'), ['create2fa', 'id' => $model->id],
+    [
+      'class' => 'btn btn-warning',
+      'data-confirm' => '' . Yii::t('app', 'Are you sure to add (or replace an existing) 2FA code?') . '',
+      'data-method' => 'post',
+    ]);
+  ?>
+  <?php $this->endBlock(); ?>
+
+	<?php $this->beginBlock('Categories'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Categories',
+        ['category/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Categories',
+        ['category/create', 'Category' => ['catusr_created_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Categories', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Categories ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getCategories(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-categories',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'category' . '/' . $action;
+       			$params['Category'] = ['catusr_created_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'category'
+				],
+        'id',
+        'cat_lock',
+        'cat_type',
+        'cat_title',
+        'cat_description:ntext',
+        'cat_createdat',
+        'cat_updatedat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'catusr_updated_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->catusrUpdated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'cat_deletedat',
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Categories0s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Categories0s',
+        ['category/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Categories0s',
+        ['category/create', 'Category' => ['catusr_deleted_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Categories0s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Categories0s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+      	'query' => $model->getCategories0(), //getCategories0s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-categories0s',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+ 				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'category' . '/' . $action;
+        		$params['Category'] = ['catusr_deleted_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'category'
+				],
+        'id',
+        'cat_lock',
+        'cat_type',
+        'cat_title',
+        'cat_description:ntext',
+        'cat_createdat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'catusr_created_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->catusrCreated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'cat_updatedat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'catusr_updated_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->catusrUpdated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Categories1s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Categories1s',
+        ['category/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Categories1s',
+        ['category/create', 'Category' => ['catusr_updated_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Categories1s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Categories1s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getCategories1(), //getCategories1s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-categories1s',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'category' . '/' . $action;
+        		$params['Category'] = ['catusr_updated_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'category'
+				],
+        'id',
+        'cat_lock',
+        'cat_type',
+        'cat_title',
+        'cat_description:ntext',
+        'cat_createdat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'catusr_created_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->catusrCreated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'cat_updatedat',
+        'cat_deletedat',
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Signallogs'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Signallogs',
+        ['signallog/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Signallogs',
+        ['signallog/create', 'Signallog' => ['slgusr_created_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Signallogs', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Signallogs ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getSignallogs(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-signallogs',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'signallog' . '/' . $action;
+        		$params['Signallog'] = ['slgusr_created_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'signallog'
+				],
+        'id',
+        'slg_lock',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgusr_Id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgusr) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+				/*[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgbot_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgbot) {
+            	return Html::a($rel->id, ['bot/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],*/
+        'slg_name',
+				/*[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgcat_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgcat) {
+            	return Html::a($rel->id, ['category/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],*/
+        'slg_message:ntext',
+        'slg_createdat',
+        'slg_updatedat',
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Signallogs0s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Signallogs0s',
+        ['signallog/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Signallogs0s',
+        ['signallog/create', 'Signallog' => ['slgusr_deleted_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Signallogs0s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Signallogs0s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+   		'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+   		'dataProvider' => new \yii\data\ActiveDataProvider([
+       	'query' => $model->getSignallogs0(), //getSignallogs0s(),
+       	'pagination' => [
+           'pageSize' => 20,
+           'pageParam'=>'page-signallogs0s',
+       	]
+   		]),
+   		'pager' => [
+       	'class'          => yii\widgets\LinkPager::className(),
+       	'firstPageLabel' => Yii::t('cruds', 'First'),
+       	'lastPageLabel'  => Yii::t('cruds', 'Last')
+   		],
+   		'columns' => [
+				[
+   				'class'      => 'yii\grid\ActionColumn',
+   				'template'   => '{view} {update}',
+   				'contentOptions' => ['nowrap'=>'nowrap'],
+   				'urlCreator' => function ($action, $model, $key, $index) {
+       			// using the column name as key, not mapping to 'id' like the standard generator
+       			$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+       			$params[0] = 'signallog' . '/' . $action;
+       			$params['Signallog'] = ['slgusr_deleted_id' => $model->primaryKey()[0]];
+       			return $params;
+   				},
+   				'buttons' => [ ],
+   				'controller' => 'signallog'
+				],
+       	'id',
+       	'slg_lock',
+				[
+   				'class' => yii\grid\DataColumn::className(),
+   				'attribute' => 'slgusr_Id',
+   				'value' => function ($model) {
+       			if ($rel = $model->slgusr) {
+           		return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+       			} else {
+           		return '';
+       			}
+   				},
+   				'format' => 'raw',
+				],
+				/*[
+   				'class' => yii\grid\DataColumn::className(),
+   				'attribute' => 'slgbot_id',
+   				'value' => function ($model) {
+      			if ($rel = $model->slgbot) {
+           		return Html::a($rel->id, ['bot/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+       			} else {
+           		return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],*/
+        'slg_name',
+				/*[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgcat_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgcat) {
+           		return Html::a($rel->id, ['category/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+           		return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],*/
+        'slg_message:ntext',
+        'slg_createdat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgusr_created_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgusrCreated) {
+           		return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+           		return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Signallogs1s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Signallogs1s',
+        ['signallog/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Signallogs1s',
+        ['signallog/create', 'Signallog' => ['slgusr_Id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Signallogs1s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Signallogs1s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getSignallogs1(), //getSignallogs1s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-signallogs1s',
+        ]
+    	]),
+   		'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'signallog' . '/' . $action;
+        		$params['Signallog'] = ['slgusr_Id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'signallog'
+				],
+        'id',
+        'slg_lock',
+				/*[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgbot_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgbot) {
+            	return Html::a($rel->id, ['bot/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],*/
+        'slg_name',
+				/*[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgcat_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgcat) {
+            	return Html::a($rel->id, ['category/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],*/
+        'slg_message:ntext',
+        'slg_createdat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'slgusr_created_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->slgusrCreated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+          	  return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'slg_updatedat',
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Symbols'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Symbols',
+        ['symbol/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Symbols',
+        ['symbol/create', 'Symbol' => ['symusr_created_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Symbols', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Symbols ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getSymbols(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-symbols',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+   				'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'symbol' . '/' . $action;
+        		$params['Symbol'] = ['symusr_created_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'symbol'
+				],
+        'id',
+        'sym_lock',
+				'sym_type',
+        'sym_code',
+        'sym_name',
+        'sym_description:ntext',
+        'sym_rateurl:ntext',
+        'sym_createdat',
+        'sym_updatedat',
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Symbols0s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Symbols0s',
+        ['symbol/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Symbols0s',
+        ['symbol/create', 'Symbol' => ['symusr_deleted_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Symbols0s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Symbols0s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getSymbols0(), //getSymbols0s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-symbols0s',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'symbol' . '/' . $action;
+        		$params['Symbol'] = ['symusr_deleted_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'symbol'
+				],
+        'id',
+        'sym_lock',
+				'sym_type',
+        'sym_code',
+        'sym_name',
+        'sym_description:ntext',
+        'sym_rateurl:ntext',
+        'sym_createdat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'symusr_created_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->symusrCreated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Symbols1s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Symbols1s',
+        ['symbol/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Symbols1s',
+        ['symbol/create', 'Symbol' => ['symusr_updated_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Symbols1s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Symbols1s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+   		'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getSymbols1(), //getSymbols1s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-symbols1s',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'symbol' . '/' . $action;
+        		$params['Symbol'] = ['symusr_updated_id' => $model->primaryKey()[0]];
+        		return $params;
+   				},
+    			'buttons' => [ ],
+    			'controller' => 'symbol'
+				],
+        'id',
+        'sym_lock',
+				'sym_type',
+        'sym_code',
+        'sym_name',
+        'sym_description:ntext',
+        'sym_rateurl:ntext',
+        'sym_createdat',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'symusr_created_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->symusrCreated) {
+            	return Html::a($rel->id, ['user/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        	} else {
+            return '';
+        	}
+    		},
+    		'format' => 'raw',
+			],
+		]
+	]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Userpays'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Userpays',
+        ['userpay/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Userpays',
+        ['userpay/create', 'Userpay' => ['upyusr_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Userpays', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Userpays ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getUserpays(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-userpays',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'userpay' . '/' . $action;
+        		$params['Userpay'] = ['upyusr_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'userpay'
+				],
+        'id',
+        'upy_lock',
+				'upy_state',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upycat_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upycat) {
+           		return Html::a($rel->cat_title, ['category/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'upy_name',
+        'upy_startdate:date',
+        'upy_enddate:date',
+        'upy_payamount',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upysym_pay_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upysymPay) {
+            	return Html::a($rel->id, ['symbol/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        	} else {
+          	  return '';
+        	}
+    		},
+    		'format' => 'raw',
+				],
+        'upy_rate',
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Userpays0s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Userpays0s',
+        ['userpay/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Userpays0s',
+        ['userpay/create', 'Userpay' => ['upyusr_created_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Userpays0s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Userpays0s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getUserpays0(), //getUserpays0s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-userpays0s',
+        ]
+    	]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'userpay' . '/' . $action;
+        		$params['Userpay'] = ['upyusr_created_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'userpay'
+				],
+        'id',
+        'upy_lock',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upycat_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upycat) {
+            	return Html::a($rel->cat_title, ['category/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'upy_name',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upyumb_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upyumb) {
+            	return Html::a($rel->umb_name, ['usermember/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'upy_startdate:date',
+        'upy_enddate:date',
+        'upy_payamount',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upysym_pay_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upysymPay) {
+            	return Html::a($rel->id, ['symbol/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+       			}
+    			},
+    			'format' => 'raw',
+				],
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+	<?php $this->beginBlock('Userpays1s'); ?>
+	<div style='position: relative'>
+		<div style='position:absolute; right: 0px; top: 0px;'>
+  		<?= Html::a('<span class="glyphicon glyphicon-list"></span> ' . Yii::t('cruds', 'List All') . ' Userpays1s',
+        ['userpay/index'],
+        ['class'=>'btn text-muted btn-xs']
+      ); ?>
+  		<?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('cruds', 'New') . ' Userpays1s',
+        ['userpay/create', 'Userpay' => ['upyusr_deleted_id' => $model->id]],
+        ['class'=>'btn btn-success btn-xs']
+      ); ?>
+		</div>
+	</div>
+
+	<?php Pjax::begin(['id'=>'pjax-Userpays1s', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Userpays1s ul.pagination a, th a']) ?>
+	<div class="table-responsive">
+		<?= \yii\grid\GridView::widget([
+    	'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
+    	'dataProvider' => new \yii\data\ActiveDataProvider([
+        'query' => $model->getUserpays1(), //getUserpays1s(),
+        'pagination' => [
+          'pageSize' => 20,
+          'pageParam'=>'page-userpays1s',
+        ]
+   		]),
+    	'pager' => [
+        'class'          => yii\widgets\LinkPager::className(),
+        'firstPageLabel' => Yii::t('cruds', 'First'),
+        'lastPageLabel'  => Yii::t('cruds', 'Last')
+    	],
+    	'columns' => [
+				[
+    			'class'      => 'yii\grid\ActionColumn',
+    			'template'   => '{view} {update}',
+    			'contentOptions' => ['nowrap'=>'nowrap'],
+    			'urlCreator' => function ($action, $model, $key, $index) {
+        		// using the column name as key, not mapping to 'id' like the standard generator
+        		$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+        		$params[0] = 'userpay' . '/' . $action;
+        		$params['Userpay'] = ['upyusr_deleted_id' => $model->primaryKey()[0]];
+        		return $params;
+    			},
+    			'buttons' => [ ],
+    			'controller' => 'userpay'
+				],
+        'id',
+        'upy_lock',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upycat_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upycat) {
+            	return Html::a($rel->cat_title, ['category/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+        'upy_name',
+        'upy_startdate:date',
+        'upy_enddate:date',
+        'upy_payamount',
+				[
+    			'class' => yii\grid\DataColumn::className(),
+    			'attribute' => 'upysym_pay_id',
+    			'value' => function ($model) {
+        		if ($rel = $model->upysymPay) {
+            	return Html::a($rel->id, ['symbol/view', 'id' => $rel->id,], ['data-pjax' => 0]);
+        		} else {
+            	return '';
+        		}
+    			},
+    			'format' => 'raw',
+				],
+			]
+		]); ?>
+	</div>
+	<?php Pjax::end() ?>
+	<?php $this->endBlock() ?>
+
+  <?= Tabs::widget([
+    'id' => 'relation-tabs',
+    'encodeLabels' => false,
+    'items' => [
+			[
+    		'label'   => '<b class=""># '.Html::encode($model->id).'</b>',
+    		'content' => $this->blocks['backend\models\User'],
+    		'active'  => true,
+			],
+			[
+    		'content' => $this->blocks['Categories'],
+    		'label'   => '<small>Categories <span class="badge badge-default">'. $model->getCategories()->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Categories0s'],
+    		'label'   => '<small>Categories0s <span class="badge badge-default">'. $model->getCategories0()/*getCategories0s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Categories1s'],
+    		'label'   => '<small>Categories1s <span class="badge badge-default">'. $model->getCategories1()/*getCategories1s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Signallogs'],
+    		'label'   => '<small>Signallogs <span class="badge badge-default">'. $model->getSignallogs()->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Signallogs0s'],
+    		'label'   => '<small>Signallogs0s <span class="badge badge-default">'. $model->getSignallogs0()/*getSignallogs0s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Signallogs1s'],
+    		'label'   => '<small>Signallogs1s <span class="badge badge-default">'. $model->getSignallogs1()/*getSignallogs1s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Symbols'],
+    		'label'   => '<small>Symbols <span class="badge badge-default">'. $model->getSymbols()->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Symbols0s'],
+    		'label'   => '<small>Symbols0s <span class="badge badge-default">'. $model->getSymbols0()/*getSymbols0s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Symbols1s'],
+    		'label'   => '<small>Symbols1s <span class="badge badge-default">'. $model->getSymbols1()/*getSymbols1s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Userpays'],
+    		'label'   => '<small>Userpays <span class="badge badge-default">'. $model->getUserpays()->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Userpays0s'],
+    		'label'   => '<small>Userpays0s <span class="badge badge-default">'. $model->getUserpays0()/*getUserpays0s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+			[
+    		'content' => $this->blocks['Userpays1s'],
+    		'label'   => '<small>Userpays1s <span class="badge badge-default">'. $model->getUserpays1()/*getUserpays1s()*/->count() . '</span></small>',
+    		'active'  => false,
+			],
+ 		]
+  ]); ?>
+</div>

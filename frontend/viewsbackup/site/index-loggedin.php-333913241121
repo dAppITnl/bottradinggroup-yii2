@@ -1,0 +1,39 @@
+<?php
+
+use Yii;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\StringHelper;
+use \common\helpers\GeneralHelper;
+
+//$userId = Yii::$app->user->id;
+//$userIdentity = Yii::$app->user->identity;
+
+//$signals = \frontend\models\Signal::getSignalsForUserBotsignal();
+
+?>
+<div class="site-index">
+  <div class="body-content">
+
+    <div class="row">
+      <div class="col text-center">
+        <h3 class=""><?= Yii::t('app', 'Welcome {username}', ['username'=>Yii::$app->user->identity->username]) ?></h3>
+				<h1 class=""><b><?= Yii::t('app', 'What are you waiting for?') ?></b> <span class="grey-text"><?= Yii::t('app', 'Start now!') ?></span></h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div style="width:100%;" class="col">
+				<p>Select what to do:</p>
+				<center><?= HTML::a( Yii::t('app', 'Subscribe to a membersip'), ['/membership/subscribe'], ['class'=>'knop-4']) ?><br><br>
+				<?= HTML::a( Yii::t('app', 'View your subscriptions and payments'), ['/membership/index'], ['class'=>'knop-4']) ?><br><br>
+				<?= HTML::a( Yii::t('app', 'View or update your profile'), ['/user/index'], ['class'=>'knop-4']) ?><br><br>
+				<?= HTML::a( Yii::t('app', 'View available signals'), ['/signal/index'], ['class'=>'knop-4']) ?><br><br>
+				<?= HTML::a( Yii::t('app', 'View or add your 3Commas bot'), ['/bot'], ['class'=>'knop-4']) ?><br><br>
+				<?= HTML::a( Yii::t('app', 'View or connect a signal to your bot'), ['/signal'], ['class'=>'knop-4']) ?><br><br></center>
+      </div>
+    </div>
+
+	</div>
+</div>

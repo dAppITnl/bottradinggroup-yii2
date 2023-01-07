@@ -1,0 +1,79 @@
+<?php
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model \frontend\models\SignupForm */
+
+use Yii;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\ActiveForm;
+use richardfan\widget\JSRegister;
+//use yii\helpers\Html;
+
+$this->title = Yii::t('app', 'Signup');
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="site-signup">
+  <div class="row">
+    <div class="col-lg-5 mx-auto">
+      <h1><?= Html::encode($this->title) ?></h1>
+      <p><?= Yii::t('app', 'Please fill out the following fields to signup') ?>:</p>
+      <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'email') ?>
+								<?= $form->field($model, 'usr_discordid') ?>
+                <?= $form->field($model, 'password')->passwordInput() ?>
+								<?= $form->field($model, 'morid')->hiddenInput(['value'=>''])->label(false) ?>
+								<?= $form->field($model, 'accept_disclaimer')->checkbox()->label(
+									 Yii::t('app', 'I accept the {disclaimerlink}.', ['disclaimerlink' => Html::a(Yii::t('app', 'disclaimer'), ['/site/disclaimer'], ['target'=>'disclaimer'])])
+								) ?>
+								<?= '' /*$form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname(), [
+    							// configure additional widget properties here
+								])*/ ?>
+								<?= $form->field($model, 'reCaptcha')->widget(\himiklab\yii2\recaptcha\ReCaptcha::className())
+								/*$form->field($model, 'verifyCode')->widget(Captcha::className(), [
+									'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+								])*/ ?>
+                <div class="form-group">
+                    <?= Html::submitButton(Yii::t('app', 'Signup'), ['id'=>'signup-button', 'name' => 'signup-button', 'class' => 'btn btn-primary']) ?>
+										<div id='submitError' class='invalid-feedback'></div>
+                </div>
+      <?php ActiveForm::end(); ?>
+    </div>
+  </div>
+</div>
+
+<?php JSRegister::begin([
+    'key' => 'moralis-signup',
+    'position' => \yii\web\View::POS_READY
+]); ?>
+<script>
+$('#signup-button').on('click', async function(event) {
+  event.preventDefault();
+  var submit=true;
+  try {
+  	const username = document.getElementById("signupform-username").value;
+    const email = document.getElementById("signupform-email").value;
+    const password = document.getElementById("signupform-password").value;
+    await moralis_signup(username, email, password);
+		const userDetails = moralis_getUserDetails();
+		console.log('userDetails: ', userDetails);
+    if (userDetails.uid) { $('#signupform-morid').value(userDetails.uid); }
+  } catch (error) {
+    submit=false;
+    console.error('submit error: '+error.code+'='+error.message);
+    $('#submitError').text('');
+    if (error.message.indexOf('email address')) {
+      $('#signupform-email').addClass('is-invalid').removeClass('is-valid').attr('aria-invalid', true).nextAll('div.invalid-feedback').first().text('<?= Yii::t('app', 'Email already exists') ?>');
+    } else if (error.message.indexOf('user')) {
+       $('#signupform-username').addClass('is-invalid').removeClass('is-valid').attr('aria-invalid', true).nextAll('div.invalid-feedback').first().text('<?= Yii::t('app', 'Username already exists') ?>');
+    } else {
+       $('#submitError').text(error.message);
+    }
+    //$('#signupform-username').focus();
+  }
+  console.log('beforesubmit is ' + (submit ? 'YES':'NO'));
+  if (submit) $('#form-signup').submit();
+});
+</script>
+<?php JSRegister::end(); ?>

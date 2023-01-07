@@ -1,0 +1,88 @@
+<?php
+
+use Yii;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\StringHelper;
+
+use \common\helpers\GeneralHelper;
+
+// $this->registerCssFile('@web/css/index.css');
+
+$usrid = \Yii::$app->user->id;
+$pricelistPeriods = GeneralHelper::getPricelistPeriods();
+$memeberships = ArrayHelper::toArray($membershipModels, ['\backend\models\Membership' => ['id', 'mbr_title', 'mbr_cardbody', ]]);
+$membershipQuantitiesForUser = GeneralHelper::getMembershipQuantitiesForUser($usrid);
+
+?>
+<div class="site-index">
+  <div class="body-content">
+
+    <div class="container">
+      <div class="row">
+				<div class="col text-center">
+					<p><h1><b><?= Yii::t('app', 'Our Signal plans') ?>:</b></h1></p>
+				</div>
+			</div>
+
+			<div class="row">
+
+<?php foreach($memeberships as $cardNr => $membership) :
+				$pricelist = GeneralHelper::getPricelistOfMembership($membership['id']);
+				$priceOptions = '';
+//echo " pricelist id=".$membership['id']."=".print_r($pricelist,true)	.'<br>';
+				if (count($pricelist) > 0) {
+					$selected=' selected';
+					foreach($pricelist as $id => $price) {
+						$mbrQuantity = (!empty($membershipQuantitiesForUser[ $membership['id'] ]) ? $membershipQuantitiesForUser[ $membership['id'] ] : 0);
+						$allowed = ($price['allowedtimes'] == 0) || ($mbrQuantity < $price['allowedtimes']);
+						Yii::trace('** subscribe option='.$price['name'].' => (mbrQuantity='.$mbrQuantity.' < allowedtimes='.$price['allowedtimes']. ') => '.($allowed ? 'Yes':'No'));
+						$priceOptions .= '<option value="'.$id.'|'.$price['percode'].'"'.$selected. ($allowed ? '': ' disabled' ) .'>'
+							.(!empty($price['pretext']) ? $price['pretext'].' ' : '')
+							.$price['symbol'].' '.$price['price'] . ' ('.$pricelistPeriods[ $price['percode'] ]
+							.(!empty($price['posttext'])? ', '.$price['posttext'] : /*' ('.$pricelistPeriods[ $price['percode'] ]*/
+									($price['allowedtimes']>0 ? '; '.$price['allowedtimes'].' '.($price['allowedtimes']==1 ? Yii::t('app', 'time'):Yii::t('app', 'times')) : ''))
+							.')</option>';
+						$selected='';
+					}
+				}
+?><br><br>
+        <div id="card-<?= ($cardNr+1) ?>" class="col-lg-4 mb-4 subscribe-cards">
+          <div class="cryptoyard-signals index-box-tier h-100">
+            <div class="card-body">
+              <div class="table-card-head">
+                <h4 class="center"><?= $membership['mbr_title'] ?></h4>
+              </div>
+              <div class="table-card-content">
+								<?= $membership['mbr_cardbody'] ?><br><br>
+              
+              							<form id="form-<?= $membership['id'] ?>" action="/membership/subscribe" method="post">
+								<input type="hidden" name="mbrid" value="<?= $membership['id'] ?>">
+								<select name="prlidpercode" class="uk-select select-subscribe">
+									<?= $priceOptions ?>
+								</select><br><br>
+               	<button type="submit" class="button-card">Join</button>
+							</form>
+			</div>
+            </div>
+						<div class="cryptoyard-signals-div">
+
+						</div><br>
+          </div>
+        </div>
+
+<?php   if (($cardNr % 3) == 2) : ?>
+      </div>
+			<div class="row">
+<?php   endif;
+			endforeach; ?>
+
+			</div>
+
+  		<div><?= implode('<br>',$errors) ?></div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,51 @@
+* Hostname discord.com was found in DNS cache
+*   Trying 162.159.128.233...
+* TCP_NODELAY set
+* Connected to discord.com (162.159.128.233) port 443 (#0)
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+  CApath: /etc/ssl/certs
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: C=US; ST=California; L=San Francisco; O=Cloudflare, Inc.; CN=sni.cloudflaressl.com
+*  start date: Dec 19 00:00:00 2021 GMT
+*  expire date: Dec 19 23:59:59 2022 GMT
+*  issuer: C=US; O=Cloudflare, Inc.; CN=Cloudflare Inc ECC CA-3
+*  SSL certificate verify ok.
+> POST /api/v6/channels/925156965594832916/messages HTTP/1.1
+Host: discord.com
+Content-Type: application/json
+Accept: application/json
+Authorization: Bot OTA5MTkwMjkxMzkzNzQ5MDYy.YZArcQ.770Qd6sdRpLLTOaMz1crZO291QE
+Content-Length: 60
+
+* upload completely sent off: 60 out of 60 bytes
+< HTTP/1.1 429 Too Many Requests
+< Date: Sat, 01 Jan 2022 19:52:42 GMT
+< Content-Type: application/json
+< Content-Length: 91
+< Connection: keep-alive
+< retry-after: 2041
+< x-ratelimit-scope: user
+< set-cookie: __dcfduid=60efd0546b3c11ec8c0342010a0a05bc; Expires=Thu, 31-Dec-2026 19:52:42 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< strict-transport-security: max-age=31536000; includeSubDomains; preload
+< x-ratelimit-bucket: a06de0de4a08126315431cc0c55ee3dc
+< x-ratelimit-limit: 5
+< x-ratelimit-remaining: 0
+< x-ratelimit-reset: 1641066765
+< x-ratelimit-reset-after: 3
+< x-envoy-upstream-service-time: 8
+< Via: 1.1 google
+< Alt-Svc: h3=":443"; ma=86400, h3-29=":443"; ma=86400, h3-28=":443"; ma=86400, h3-27=":443"; ma=86400
+< set-cookie: __sdcfduid=60efd0546b3c11ec8c0342010a0a05bce0ea2f8def8529cc2a669d53cc10c6156918c5951e1bd84aa02e93d3607be74a; Expires=Thu, 31-Dec-2026 19:52:42 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< CF-Cache-Status: DYNAMIC
+< Expect-CT: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=7t8trs%2F0365S5pRwa%2F5k61Y4QZ1CsXXDMRAuKHUCBVNtWWZT3az9QBpoL91rHPNfcYL%2Bdx0W4c8dUlyZKEmLFAu629I0lbtbUqlntnr4yMtoMRfrwVF7eOwPHRjx"}],"group":"cf-nel","max_age":604800}
+< NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+< X-Content-Type-Options: nosniff
+< Server: cloudflare
+< CF-RAY: 6c6e4a21f94a58ea-TXL
+< 
+* Connection #0 to host discord.com left intact

@@ -1,0 +1,114 @@
+{
+    "tablename": {
+        "value": "signal_membership",
+        "name": "tableName"
+    },
+    "tableprefix": {
+        "value": "",
+        "name": "tablePrefix"
+    },
+    "modelclass": {
+        "value": "SignalMembership",
+        "name": "modelClass"
+    },
+    "ns": {
+        "value": "backend\\models",
+        "name": "ns"
+    },
+    "baseclass": {
+        "value": "yii\\db\\ActiveRecord",
+        "name": "baseClass"
+    },
+    "db": {
+        "value": "db",
+        "name": "db"
+    },
+    "generaterelations": {
+        "value": "all",
+        "name": "generateRelations"
+    },
+    "generatejunctionrelationmode": {
+        "value": "table",
+        "name": "generateJunctionRelationMode"
+    },
+    "generatelabelsfromcomments": {
+        "value": "1",
+        "name": "generateLabelsFromComments"
+    },
+    "generatehintsfromcomments": {
+        "value": "0",
+        "name": "generateHintsFromComments"
+    },
+    "generatemodelclass": {
+        "value": "1",
+        "name": "generateModelClass"
+    },
+    "generatequery": {
+        "value": "0",
+        "name": "generateQuery"
+    },
+    "queryns": {
+        "value": "backend\\models",
+        "name": "queryNs"
+    },
+    "queryclass": {
+        "value": "",
+        "name": "queryClass"
+    },
+    "querybaseclass": {
+        "value": "yii\\db\\ActiveQuery",
+        "name": "queryBaseClass"
+    },
+    "enablei18n": {
+        "value": "0",
+        "name": "enableI18N"
+    },
+    "singularentities": {
+        "value": "0",
+        "name": "singularEntities"
+    },
+    "messagecategory": {
+        "value": "models",
+        "name": "messageCategory"
+    },
+    "usetranslatablebehavior": {
+        "value": "0",
+        "name": "useTranslatableBehavior"
+    },
+    "languagetablename": {
+        "value": "{{table}}_lang",
+        "name": "languageTableName"
+    },
+    "languagecodecolumn": {
+        "value": "language",
+        "name": "languageCodeColumn"
+    },
+    "useblameablebehavior": {
+        "value": "0",
+        "name": "useBlameableBehavior"
+    },
+    "createdbycolumn": {
+        "value": "sigusr_created_id",
+        "name": "createdByColumn"
+    },
+    "updatedbycolumn": {
+        "value": "sigusr_updated_id",
+        "name": "updatedByColumn"
+    },
+    "usetimestampbehavior": {
+        "value": "0",
+        "name": "useTimestampBehavior"
+    },
+    "createdatcolumn": {
+        "value": "sig_createdat",
+        "name": "createdAtColumn"
+    },
+    "updatedatcolumn": {
+        "value": "sig_updatedat",
+        "name": "updatedAtColumn"
+    },
+    "timestampbehaviorclass": {
+        "value": "yii\\behaviors\\TimestampBehavior",
+        "name": "timestampBehaviorClass"
+    }
+}

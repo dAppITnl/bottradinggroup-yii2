@@ -1,0 +1,15 @@
+<?php
+
+/* @var $this yii\web\View */
+
+use yii\helpers\Html;
+
+$this->title = 'FAQ';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="site-faq text-wit">
+	<h1>FAQ - Bot Trading Group</h1>
+
+	<p>FAQ page (EN)</p>
+
+</div>

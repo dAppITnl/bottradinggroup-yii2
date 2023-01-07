@@ -1,0 +1,87 @@
+<?php
+
+use Yii;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\StringHelper;
+use \common\helpers\GeneralHelper;
+
+// $this->registerCssFile('@web/css/index.css');
+
+$getPricelistPeriods = GeneralHelper::getPricelistPeriods();
+$memeberships = ArrayHelper::toArray($membershipModels, ['\backend\models\Membership' => ['id', 'mbr_title', 'mbr_cardbody', ]]);
+?>
+<div class="site-index">
+  <div class="body-content">
+
+    <div class="container">
+      <div class="row">
+
+<?php foreach($memeberships as $rowNr => $membership) :
+				$pricelist = GeneralHelper::getPricelistOfMembership($membership['id'], false);
+				$priceOptions = '';
+//echo " pricelist id=".$membership['id']."=".print_r($pricelist,true)	.'<br>';
+				if (count($pricelist) > 0) {
+					$seleced=' selected';
+					foreach($pricelist as $id => $price) {
+						$priceOptions .= '<option value="'.$id.'|'.$price['percode'].'"'.$selected.'>'.$price['symbol'].' '.$price['price'].' ('.$getPricelistPeriods[ $price['percode'] ].')</option>';
+						$selected='';
+					}
+				}
+?>
+        <div class="col-lg-4 mb-4">
+          <div class="card index-box-tier h-100">
+            <div class="card-body">
+              <div class="text-center">
+                <h5 class="card-title"><?= $membership['mbr_title'] ?></h5>
+                <div class="d-flex justify-content-center">
+									<form id="form-<?= $membership['id'] ?>" action="/membership/subscribe" method="post">
+										<input type="hidden" name="mbrid" value="<?= $membership['id'] ?>">
+										<select name="prlidpercode" class="browser-default custom-select custom-select-lg mb-3">
+											<?= $priceOptions ?>
+										</select>
+                  	<button type="submit" class="btn btn-primary btn-rounded">Join</button>
+									</form>
+                </div>
+              </div>
+              <p class="card-text">
+								<?= $membership['mbr_cardbody'] ?>
+              </p>
+            </div>
+          </div>
+        </div>
+
+<?php   if (($rowNr % 3) == 2) : ?>
+      </div>
+			<div class="row">
+<?php   endif;
+			endforeach; ?>
+
+			</div>
+
+			<?php $form = ActiveForm::begin([
+				'id' => 'Membership-Subscribe',
+				'layout' => 'horizontal',
+				'enableClientValidation' => true,
+				'errorSummaryCssClass' => 'error-summary alert alert-danger',
+				'fieldConfig' => [
+					'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+					'horizontalCssClasses' => [
+						'label' => 'col-sm-2',
+						#'offset' => 'col-sm-offset-4',
+						'wrapper' => 'col-sm-8',
+						'error' => '',
+						'hint' => '',
+					],
+				],
+			]); ?>
+
+  		<?= $form->errorSummary($membershipModels); ?>
+
+			<?php ActiveForm::end(); ?>
+
+    </div>
+
+  </div>
+</div>

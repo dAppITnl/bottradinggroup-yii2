@@ -1,0 +1,44 @@
+<?php
+
+/* @var $this yii\web\View */
+
+use yii\helpers\Html;
+
+$this->title = 'About';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="site-about">
+	<h1>Over Bot Trading Group</h1>
+
+	<p>Welkom bij de Bot Trading NL Group marketplace!<br>
+		Bot trading NL group bied de volgende premium kanalen aan:<br>
+		<ul>
+			<li><b>Premium Bakker updates</b><br>
+				In dit kanaal worden real time updates gegeven over de bakker setup aan de hand van de markt conditie. Bijchip momenten van @Robert Bakker - XEP. Uiteraard wordt je op de hoogte gehouden van de laatste nieuwtjes betreft de Bakker Setup!<br>
+				Informatie:<br>
+				Kosten: - 0,000 BTC ( 7 dagen premium toegang ) - 0,000 BTC ( 30 dagen premium toegang ) - 0,000 BTC ( half jaar premium toegang ) - 0,000 BTC ( 1 jaar premium toegang ) - 0,000 BTC ( lifetime premium toegang )</p>
+
+    <p>Premium signals (comming soon)<br>
+In dit kanaal krijg je toegang tot de signal provider van Bot trading NL group. Een speciaal signal gecreëerd en gebacktest door ervaren traders. Alle pairs zijn manueel getest.<br>
+
+<blockquote><i>Informatie</i><br>
+Beschikbare exchange: Binance<br>
+Beschikbare pairs: USDT-pairs en BTC-pairs.<br>
+Kosten:<br>
+- 0,00024 BTC ( 7 dagen premium toegang )<br>
+- 0,00073 BTC  ( 30 dagen premium toegang )</blockquote></p>
+
+    <p>Premium-ta (comming soon) Technische analyse staat hier centraal.<br>
+Op basis van de juiste markt condities, indicatoren en ervaring wordt er een call gegeven. Alle calls worden voorzien van TA.<br>
+<blockquote><i>Informatie</i><br>
+Kosten:<br>
+- 0,000 BTC ( 7 dagen premium toegang )<br>
+- 0,000 BTC ( 30 dagen premium toegang )</blockquote></p>
+
+    <p>Voorwaarden <b>Alle informatie die verstrekt wordt in de premium kanalen worden gedeeld met de beste bedoelingen. Dit is geen financieel advies. Eventuele winsten of verliezen ben je zelf verantwoordelijk voor.</b> Om toegang te krijgen tot de premium kanalen kan je een abonnement aanschaffen. Binnenkort meer informatie over de abonnementen.</p>
+
+    <p><i>Wil jij je eigen custom TV signal aanbieden voor groter publiek? Stuur dan een van de server admins een bericht om te bespreken wat de mogelijkheden zijn.</i></p>
+
+		<p></p>
+
+</div>

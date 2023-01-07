@@ -1,0 +1,85 @@
+<?php
+
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+use \dmstr\bootstrap\Tabs;
+use yii\helpers\StringHelper;
+use \common\helpers\GeneralHelper;
+
+$getLanguages = GeneralHelper::getLanguages();
+
+/**
+* @var yii\web\View $this
+* @var backend\models\User $userModel
+* @var yii\widgets\ActiveForm $form
+*/
+
+?>
+<div class="userUpdate-form">
+
+  <?php $form = ActiveForm::begin([
+    'id' => 'userUpdate',
+    'layout' => 'horizontal',
+    'enableClientValidation' => true,
+    'errorSummaryCssClass' => 'error-summary alert alert-danger',
+    'fieldConfig' => [
+      'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+      'horizontalCssClasses' => [
+        'label' => 'col-sm-2',
+        #'offset' => 'col-sm-offset-4',
+        'wrapper' => 'col-sm-8',
+        'error' => '',
+        'hint' => '',
+      ],
+    ],
+  ]); ?>
+
+  <div class="">
+    <p>
+      <!-- attribute username -->
+      <?= $form->field($userModel, 'username')->textInput(['maxlength' => true, 'readonly' => (!$userModel->isNewRecord)]) ?>
+
+      <!-- attribute email -->
+      <?= $form->field($userModel, 'email')->textInput(['maxlength' => true]) ?>
+
+      <!-- attribute usr_language -->
+      <?= $form->field($userModel, 'usr_language')->dropDownList($getLanguages,
+        [
+          'prompt' => Yii::t('cruds', 'Select'),
+          'disabled' => (isset($relAttributes) && isset($relAttributes['usr_language'])),
+        ]
+      ); ?>
+
+      <!-- attribute usr_moralisid -->
+      <?= '' // $form->field($userModel, 'usr_moralisid')->textInput(['maxlength' => true, 'readonly'=>true]) ?>
+
+      <!-- attribute usr_discordid -->
+      <?= $form->field($userModel, 'usr_discordid')->textInput(['maxlength' => true]) ?>
+
+      <!-- attribute usr_remarks -->
+      <?= $form->field($userModel, 'usr_remarks')->textarea(['rows' => 3]) ?>
+
+    </p>
+
+    <?php echo $form->errorSummary($userModel); ?>
+
+    <?= Html::submitButton('<span class="glyphicon glyphicon-check"></span> ' . Yii::t('cruds', 'Save'),
+      [
+        'id' => 'save-' . $userModel->formName(),
+        'class' => 'btn btn-success'
+      ]
+    ); ?>
+		<?= Html::a(Yii::t('app', 'Cancel'), ['/user/index'], ['class'=>'btn btn-primary']) ?>
+
+    <?php ActiveForm::end(); ?>
+
+		<p><hr></p>
+
+		<p><?= Yii::t('app', 'You can ') . Html::a(Yii::t('app', 'reset your password here'), ['site/request-password-reset']) ?>.
+                    <br>
+                    <?= Yii::t('app', 'Need new verification email?') . ' ' . Html::a(Yii::t('app', 'Resend'), ['site/resend-verification-email']) ?></p>
+
+
+	</div>
+</div>
+

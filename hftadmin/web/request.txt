@@ -1,0 +1,46 @@
+*   Trying 162.159.128.233...
+* TCP_NODELAY set
+* Connected to discord.com (162.159.128.233) port 443 (#0)
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+  CApath: /etc/ssl/certs
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: C=US; ST=CA; L=San Francisco; O=Cloudflare, Inc.; CN=sni.cloudflaressl.com
+*  start date: Jan 19 00:00:00 2021 GMT
+*  expire date: Jan 18 23:59:59 2022 GMT
+*  subjectAltName: host "discord.com" matched cert's "discord.com"
+*  issuer: C=US; O=Cloudflare, Inc.; CN=Cloudflare Inc ECC CA-3
+*  SSL certificate verify ok.
+> GET /api/v6/guilds/885495602144772117/members/377729286653607936 HTTP/1.1
+Host: discord.com
+Accept: */*
+Authorization: Bot OTA5MTkwMjkxMzkzNzQ5MDYy.YZArcQ.770Qd6sdRpLLTOaMz1crZO291QE
+
+< HTTP/1.1 200 OK
+< Date: Mon, 15 Nov 2021 07:35:27 GMT
+< Content-Type: application/json
+< Transfer-Encoding: chunked
+< Connection: keep-alive
+< set-cookie: __dcfduid=99ff176045e611ecb28e42010a0a0297; Expires=Sat, 14-Nov-2026 07:35:27 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< set-cookie: __sdcfduid=99ff176045e611ecb28e42010a0a029744c628ca4f5b43735b971995982bf4b80791ed66b3d8a50185fe67733bf22e92; Expires=Sat, 14-Nov-2026 07:35:27 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< strict-transport-security: max-age=31536000; includeSubDomains; preload
+< x-ratelimit-bucket: e06f83c33559dfd4dc34f5666fdfa1d3
+< x-ratelimit-limit: 5
+< x-ratelimit-remaining: 4
+< x-ratelimit-reset: 1636961729
+< x-ratelimit-reset-after: 1
+< x-envoy-upstream-service-time: 15
+< Via: 1.1 google
+< Alt-Svc: h3=":443"; ma=86400, h3-29=":443"; ma=86400, h3-28=":443"; ma=86400, h3-27=":443"; ma=86400
+< CF-Cache-Status: DYNAMIC
+< Expect-CT: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=esk%2FYIIcqxVVU5jGS0KU7qtZy6XZyCeACXlG5%2FgkMLV8upa0Pr0e2syyxSKibxN1Z%2F5%2FIe2WVwUtn634g7eOvPZ2i2pfOCSvwkymC4RsfzdnJMOdkdFiM7KTlSm9"}],"group":"cf-nel","max_age":604800}
+< NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+< X-Content-Type-Options: nosniff
+< Server: cloudflare
+< CF-RAY: 6ae6cd8c48fa58e4-TXL
+< 
+* Connection #0 to host discord.com left intact

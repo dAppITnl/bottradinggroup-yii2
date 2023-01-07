@@ -1,0 +1,15 @@
+<?php
+/* @var $this yii\web\View */
+
+$this->registerCssFile('@web/css/index.css');
+
+?>
+<div class="site-index">
+  <div class="body-content">
+    <div class="row">
+      <div class="col text-left"> <h3>Sluit je aan bij een hechte community, volg ervaren (bot) traders. <br>
+Blijf op de hoogte van de nieuwste bots, indicatoren en nog veel meer!<br> <a href="/site/signup">Meld je aan</a> of <a href="/site/login">log in</a></h3></b>
+      </div>
+    </div>
+	</div>
+</div>

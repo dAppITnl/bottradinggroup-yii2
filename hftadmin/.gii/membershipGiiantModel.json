@@ -1,0 +1,114 @@
+{
+    "tablename": {
+        "value": "membership",
+        "name": "tableName"
+    },
+    "tableprefix": {
+        "value": "",
+        "name": "tablePrefix"
+    },
+    "modelclass": {
+        "value": "Membership",
+        "name": "modelClass"
+    },
+    "ns": {
+        "value": "backend\\models",
+        "name": "ns"
+    },
+    "baseclass": {
+        "value": "yii\\db\\ActiveRecord",
+        "name": "baseClass"
+    },
+    "db": {
+        "value": "db",
+        "name": "db"
+    },
+    "generaterelations": {
+        "value": "all",
+        "name": "generateRelations"
+    },
+    "generatejunctionrelationmode": {
+        "value": "table",
+        "name": "generateJunctionRelationMode"
+    },
+    "generatelabelsfromcomments": {
+        "value": "1",
+        "name": "generateLabelsFromComments"
+    },
+    "generatehintsfromcomments": {
+        "value": "1",
+        "name": "generateHintsFromComments"
+    },
+    "generatemodelclass": {
+        "value": "1",
+        "name": "generateModelClass"
+    },
+    "generatequery": {
+        "value": "1",
+        "name": "generateQuery"
+    },
+    "queryns": {
+        "value": "backend\\models",
+        "name": "queryNs"
+    },
+    "queryclass": {
+        "value": "MembershipQuery",
+        "name": "queryClass"
+    },
+    "querybaseclass": {
+        "value": "yii\\db\\ActiveQuery",
+        "name": "queryBaseClass"
+    },
+    "enablei18n": {
+        "value": "1",
+        "name": "enableI18N"
+    },
+    "singularentities": {
+        "value": "1",
+        "name": "singularEntities"
+    },
+    "messagecategory": {
+        "value": "models",
+        "name": "messageCategory"
+    },
+    "usetranslatablebehavior": {
+        "value": "0",
+        "name": "useTranslatableBehavior"
+    },
+    "languagetablename": {
+        "value": "{{table}}_lang",
+        "name": "languageTableName"
+    },
+    "languagecodecolumn": {
+        "value": "language",
+        "name": "languageCodeColumn"
+    },
+    "useblameablebehavior": {
+        "value": "1",
+        "name": "useBlameableBehavior"
+    },
+    "createdbycolumn": {
+        "value": "mbrusrcreated_id",
+        "name": "createdByColumn"
+    },
+    "updatedbycolumn": {
+        "value": "mbrusrupdated_id",
+        "name": "updatedByColumn"
+    },
+    "usetimestampbehavior": {
+        "value": "1",
+        "name": "useTimestampBehavior"
+    },
+    "createdatcolumn": {
+        "value": "mbr_createdat",
+        "name": "createdAtColumn"
+    },
+    "updatedatcolumn": {
+        "value": "mbr_updatedat",
+        "name": "updatedAtColumn"
+    },
+    "timestampbehaviorclass": {
+        "value": "yii\\behaviors\\TimestampBehavior",
+        "name": "timestampBehaviorClass"
+    }
+}

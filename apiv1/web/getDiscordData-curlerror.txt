@@ -22,21 +22,21 @@ Content-Length: 71
 
 * upload completely sent off: 71 out of 71 bytes
 < HTTP/1.1 401 Unauthorized
-< Date: Sun, 08 Jan 2023 13:25:05 GMT
+< Date: Sun, 08 Jan 2023 13:30:01 GMT
 < Content-Type: application/json
 < Content-Length: 43
 < Connection: keep-alive
-< set-cookie: __dcfduid=dd5076948f5711ed8f8d66a43e9d3fc7; Expires=Fri, 07-Jan-2028 13:25:05 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< set-cookie: __dcfduid=8d76af708f5811ed81155a6c252b6e7a; Expires=Fri, 07-Jan-2028 13:30:01 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
 < strict-transport-security: max-age=31536000; includeSubDomains; preload
 < Via: 1.1 google
 < Alt-Svc: h3=":443"; ma=86400, h3-29=":443"; ma=86400
 < CF-Cache-Status: DYNAMIC
-< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=hPKYOJje2dSsi3oSXHeZuvu%2Brw2pS7gAqvp65RXzqkytrD5REeWyKxSl9XtPTlezGgYjImACW3gOMocNFNVTVnGx4AYgLinCKw5OW7SpDyMIOT2PcpZPDSt20o9r"}],"group":"cf-nel","max_age":604800}
+< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=lXxDDXc6Wc6pyGoR%2B2OJVscfRW1lNhuZdSwjOX2DBG9yNHMZTDvjopUBP0vhXk2cM79yW77QkTj2t%2FopLz04a9h858u42CozI0v1JGuqN9r2e86L1D2Wpgey2Gnn"}],"group":"cf-nel","max_age":604800}
 < NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
 < X-Content-Type-Options: nosniff
-< Set-Cookie: __sdcfduid=dd5076948f5711ed8f8d66a43e9d3fc760b55f5b75b8d2dc22b199e09bd9faa7dfd69128dd8008b8093d8f8ebd059cbf; Expires=Fri, 07-Jan-2028 13:25:05 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
-< Set-Cookie: __cfruid=ba2b36bd28bf5e18988bc881d17a41107ec5bb97-1673184305; path=/; domain=.discord.com; HttpOnly; Secure; SameSite=None
+< Set-Cookie: __sdcfduid=8d76af708f5811ed81155a6c252b6e7a37368506b1a4baacb704b085834c5827e08a861c1bef9142610753f408c2d1ef; Expires=Fri, 07-Jan-2028 13:30:01 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< Set-Cookie: __cfruid=17f03e2c4fceaedb1aefd03725fa45aae46f0b3c-1673184601; path=/; domain=.discord.com; HttpOnly; Secure; SameSite=None
 < Server: cloudflare
-< CF-RAY: 786541d548dc4480-TXL
+< CF-RAY: 7865490c8fcc4516-TXL
 < 
 * Connection #0 to host discord.com left intact

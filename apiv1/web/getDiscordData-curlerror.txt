@@ -1,6 +1,6 @@
-*   Trying 162.159.137.232...
+*   Trying 162.159.128.233...
 * TCP_NODELAY set
-* Connected to discord.com (162.159.137.232) port 443 (#0)
+* Connected to discord.com (162.159.128.233) port 443 (#0)
 * ALPN, offering http/1.1
 * successfully set certificate verify locations:
 *   CAfile: /etc/ssl/certs/ca-certificates.crt
@@ -18,30 +18,30 @@ Host: discord.com
 Authorization: Bot OTA5MTkwMjkxMzkzNzQ5MDYy.YZArcQ.770Qd6sdRpLLTOaMz1crZO291QE
 Content-Type: application/json
 Accept: application/json
-Content-Length: 70
+Content-Length: 72
 
-* upload completely sent off: 70 out of 70 bytes
+* upload completely sent off: 72 out of 72 bytes
 < HTTP/1.1 200 OK
-< Date: Sun, 08 Jan 2023 10:30:01 GMT
+< Date: Sun, 08 Jan 2023 11:37:14 GMT
 < Content-Type: application/json
 < Transfer-Encoding: chunked
 < Connection: keep-alive
-< set-cookie: __dcfduid=6844a09a8f3f11ed8aaa167067198fed; Expires=Fri, 07-Jan-2028 10:30:01 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< set-cookie: __dcfduid=cc44530c8f4811ed9da4eeddeea90619; Expires=Fri, 07-Jan-2028 11:37:14 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
 < strict-transport-security: max-age=31536000; includeSubDomains; preload
 < x-ratelimit-bucket: 1d3c67957bcdccc6709861c232df8529
 < x-ratelimit-limit: 5
 < x-ratelimit-remaining: 4
-< x-ratelimit-reset: 1673173803
+< x-ratelimit-reset: 1673177836
 < x-ratelimit-reset-after: 1
 < Via: 1.1 google
 < Alt-Svc: h3=":443"; ma=86400, h3-29=":443"; ma=86400
 < CF-Cache-Status: DYNAMIC
-< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=HwEUKOQD9Dj8gAJ8DSYk8lSqB3tpO7p5D4n%2BDv4%2Bx1De7L7xI5srokWSOU%2BOUnN9rMCSYMvfprUnphJ9Tj%2FGAo2MbvPD2AmPWm0kyfQBkCABhrZZamD4OVDGabR%2F"}],"group":"cf-nel","max_age":604800}
+< Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=N3%2BkKMME%2FbIFqSA2C1i1V5BgGJEJSHVD1P2qSTuepJogULICxy5gH3tbL%2FxguA2vdX4XSQelBvUW9EjsIHvRS2kuNuuz3M7k3i6wJaB7l2L%2FVQMCTPxgQ0gV2PR2"}],"group":"cf-nel","max_age":604800}
 < NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
 < X-Content-Type-Options: nosniff
-< Set-Cookie: __sdcfduid=6844a09a8f3f11ed8aaa167067198fed8a51c7239839becb31b0a22e021e9eead4a50a1dffe182eb69ab8978161375b0; Expires=Fri, 07-Jan-2028 10:30:01 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
-< Set-Cookie: __cfruid=1d0e7a381edab8c88ef1362fad9ad270d60384a8-1673173801; path=/; domain=.discord.com; HttpOnly; Secure; SameSite=None
+< Set-Cookie: __sdcfduid=cc44530c8f4811ed9da4eeddeea9061999803cbcda5530364add1eb0b8edb403a41c9ac1f77dcbb392ccbe1a3de92adb; Expires=Fri, 07-Jan-2028 11:37:14 GMT; Max-Age=157680000; Secure; HttpOnly; Path=/
+< Set-Cookie: __cfruid=c8b35f7b023f4957599dd8dd5f5a7288753599fb-1673177834; path=/; domain=.discord.com; HttpOnly; Secure; SameSite=None
 < Server: cloudflare
-< CF-RAY: 786441600b6eaca4-TXL
+< CF-RAY: 7864a3d89d62450a-TXL
 < 
 * Connection #0 to host discord.com left intact

@@ -68,3 +68,4 @@ return [
 	'imagesmap' => 'https://bottradinggroup.nl/images/',
 
 ];
+

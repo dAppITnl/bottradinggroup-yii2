@@ -54,6 +54,10 @@ body {
 	width: 100%;
 }
 
+.card {
+  background-color: transparent !important;
+}
+
 .card-title {
 	font-size: 28px!important
     border-collapse: collapse;
@@ -87,6 +91,10 @@ body {
 
 .subscribe-cards {
 }
+
+/*.card {
+	background-color: transparant !important;
+}*/
 
 .card-body {
     border-collapse: collapse;
@@ -275,7 +283,7 @@ td {
 	color: #2d2d2d;
 	font-size: 14pt;
 	font-weight: 600;
-	height: 100%!important;
+	/*height: 100%!important;*/
 	background-color: #fff!important;
 }
 
@@ -287,7 +295,7 @@ a.dropdown-toggle,a.dropdown-item ,a.nav-link ,a.dropdown ,a.nav-item ,a.navbar-
 
 a {
 	font-weight: 600;
-	text-decoration: underline;
+	text-decoration: none;
 	color: #060d32;
 }
 
